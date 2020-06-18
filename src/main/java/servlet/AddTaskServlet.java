@@ -5,6 +5,7 @@ import manager.UserManager;
 import model.Task;
 import model.TaskStatus;
 import model.User;
+import util.DateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,7 +21,7 @@ import java.util.List;
 public class AddTaskServlet extends HttpServlet {
     UserManager userManager = new UserManager();
     TaskManager taskManager = new TaskManager();
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -50,20 +51,17 @@ public class AddTaskServlet extends HttpServlet {
         }
 
         if (msg.toString().equals("")) {
-            try {
+
                 Task task = Task.builder()
                         .name(name)
                         .description(description)
-                        .deadline(sdf.parse(deadline))
+                        .deadline(DateUtil.convertStringToDate(deadline))
                         .status(TaskStatus.valueOf(status))
                         .user(userManager.getById(Long.parseLong(userId)))
                         .build();
                 taskManager.create(task);
                 msg.append("<span style=\"color:green\">Task successfully added</span");
 
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
         }
         req.getSession().setAttribute("msg", msg.toString());
         resp.sendRedirect("/add");

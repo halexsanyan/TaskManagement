@@ -7,26 +7,27 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
+<head>
     <title>Main page</title>
-  </head>
-  <body>
+</head>
+<body>
 
-  <%
-    String msg="";
-    if (session.getAttribute("msg")!=null) {
-       msg = (String) session.getAttribute("msg");
+<%
+    String msg = "";
+    if (session.getAttribute("msg") != null) {
+        msg = (String) session.getAttribute("msg");
+        session.removeAttribute("msg");
     }
-     session.removeAttribute("msg");
-  %>
+
+%>
 <p style="color: red">
-  <%=msg%>
+    <%=msg%>
 </p>
-  Login:
-  <form action="/login" method="post">
-     <input type="text" name="email" placeholder="email" required> <br>
-     <input type="password" name="password" placeholder="password" required> <br>
-     <input type="submit" value="Login">
-  </form>
-  </body>
+Login:
+<form action="/login" method="post">
+    <input type="text" name="email" placeholder="email" > <br>
+    <input type="password" name="password" placeholder="password" > <br>
+    <input type="submit" value="Login">
+</form>
+</body>
 </html>

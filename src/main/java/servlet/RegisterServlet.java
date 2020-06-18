@@ -51,5 +51,4 @@ public class RegisterServlet extends HttpServlet {
         }
         req.getSession().setAttribute("msg", msg.toString());
         resp.sendRedirect("/register");
-    }
-}
+}}

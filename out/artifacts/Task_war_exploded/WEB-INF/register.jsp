@@ -23,10 +23,10 @@
 <p style="color: red"><%=msg%></p>
 
 <form action="/register" method="post">
-    <input type="text" name="name" placeholder="please input name" required><br>
-    <input type="text" name="surname" placeholder="please input surname" required><br>
-    <input type="text" name="email" placeholder="please input email" required><br>
-    <input type="password" name="password" placeholder="please input password" required><br>
+    <input type="text" name="name" placeholder="please input name" ><br>
+    <input type="text" name="surname" placeholder="please input surname" ><br>
+    <input type="text" name="email" placeholder="please input email" ><br>
+    <input type="password" name="password" placeholder="please input password"><br>
     <input type="submit" value="Register">
 </form>
 <br>

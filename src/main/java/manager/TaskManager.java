@@ -3,6 +3,7 @@ package manager;
 import db.DBConnectionProvider;
 import model.Task;
 import model.TaskStatus;
+import util.DateUtil;
 
 import java.sql.*;
 import java.text.ParseException;
@@ -12,7 +13,6 @@ import java.util.List;
 
 public class TaskManager {
     private Connection connection = DBConnectionProvider.getInstance().getConnection();
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     public UserManager userManager = new UserManager();
 
     public Task getById(long id) {
@@ -39,7 +39,7 @@ public class TaskManager {
             prstatement.setString(1, task.getName());
             prstatement.setString(2, task.getDescription());
             if (task.getDeadline() != null) {
-                prstatement.setString(3, sdf.format(task.getDeadline()));
+                prstatement.setString(3, DateUtil.convertDateToString(task.getDeadline()));
             } else {
                 prstatement.setString(3, null);
             }
@@ -118,19 +118,16 @@ public class TaskManager {
     private Task getTaskFromResaltset(ResultSet resultSet) {
 
         try {
-            try {
+
                 return Task.builder()
                         .id(resultSet.getLong(1))
                         .name(resultSet.getString(2))
                         .description(resultSet.getString(3))
-                        .deadline(resultSet.getString(4) == null ? null : sdf.parse(resultSet.getString(4)))
+                        .deadline(resultSet.getString(4) == null ? null : DateUtil.convertStringToDate(resultSet.getString(4)))
                         .status(TaskStatus.valueOf(resultSet.getString(5)))
                         .user(userManager.getById(resultSet.getLong(6)))
                         .build();
-            } catch (ParseException e) {
-                e.printStackTrace();
-                return null;
-            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
